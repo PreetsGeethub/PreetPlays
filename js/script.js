@@ -20,6 +20,7 @@ function secondsToMinutesSeconds(seconds) {
 
 async function getSongs(folder) {
     currFolder = folder;
+    console.log(folder);
     // Changed from localhost to relative path:
     let a = await fetch(`./${folder}/`);
     let response = await a.text();
@@ -64,6 +65,8 @@ async function getSongs(folder) {
 const playMusic = (track, pause = false) => {
     // Use relative path to load the track:
     currentSong.src = `/${currFolder}/` + track;
+    console.log(track);
+    console.log(currentSong.src);
 
     if (!pause) {
         currentSong.play();
