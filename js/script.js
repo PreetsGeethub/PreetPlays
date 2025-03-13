@@ -18,39 +18,30 @@ function secondsToMinutesSeconds(seconds) {
     return `${formattedMinutes}:${formattedSeconds}`;
 }
 
-async function getSongs(folder) {
-    currFolder = folder;
-    console.log(folder);
-    // Changed from localhost to relative path:
-    let a = await fetch(`./${folder}/`);
-    let response = await a.text();
-    let div = document.createElement("div");
-    div.innerHTML = response;
-    let as = div.getElementsByTagName("a");
-    songs = [];
-
-    for (let index = 0; index < as.length; index++) {
-        const element = as[index];
-        if (element.href.endsWith(".mp3")) {
-            songs.push(element.href.split(`/${folder}/`)[1]);
+async function getSongs(jsonPath) {
+    try {
+        let response = await fetch(jsonPath);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
         }
-    }
-    let songUL = document.querySelector(".songList").getElementsByTagName("ul")[0];
-    songUL.innerHTML = "";
+        let data = await response.json();
+        console.log("Loaded Songs:", data.name); // Debugging
 
-    for (const song of songs) {
-        songUL.innerHTML += `<li>
-            <img class="invert" src="img/music.svg" alt="music">
-            <div class="songInfo">
-                <div>${song.replaceAll("%20", " ")}</div>
-                <div>Preet</div>
-            </div>
-            <div class="playNow">
-                <span>Play Now</span>
-                <img class="invert" src="img/playnow.svg" alt="playnow">
-            </div>
-        </li>`;
+        let songList = document.getElementById("song-list");
+        songList.innerHTML = ""; // Clear old list
+
+        data.name.forEach(song => {
+            let listItem = document.createElement("li");
+            listItem.textContent = song;
+            songList.appendChild(listItem);
+        });
+    } catch (error) {
+        console.error("Error loading songs:", error);
     }
+}
+
+// Call this function with the correct JSON path
+getSongs("https://preetsgeethub.github.io/PreetPlays/Songs/ncs/yourfile.json");
 
     // Attach an event listener to each song
     Array.from(document.querySelector(".songList").getElementsByTagName("li")).forEach(e => {
