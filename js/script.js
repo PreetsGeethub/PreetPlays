@@ -18,18 +18,18 @@ async function getSongs(folder) {
         let response = await fetch(`${folder}/info.json`);
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
         let data = await response.json();
-        
+
         songs = data.tracks || [];
         // Changed selector to match your HTML structure
         let songList = document.querySelector(".songList ul");
-        
+
         if (!songList) {
             console.error("Song list element not found. Check HTML structure.");
             return;
         }
 
         songList.innerHTML = "";
-        
+
         songs.forEach(song => {
             let listItem = document.createElement("li");
             listItem.textContent = song;
@@ -61,7 +61,7 @@ async function displayAlbums() {
         if (!response.ok) throw new Error("Failed to load albums.json");
         let albums = await response.json();
         let cardContainer = document.querySelector(".cardContainer");
-        
+
         if (!cardContainer) {
             console.error("Card container not found");
             return;
@@ -74,12 +74,14 @@ async function displayAlbums() {
                 let infoResponse = await fetch(`Songs/${album.folder}/info.json`);
                 if (!infoResponse.ok) throw new Error("Album info not found");
                 let albumInfo = await infoResponse.json();
-                
+
                 cardContainer.innerHTML += `<div data-folder="${album.folder}" class="card">
                     <div class="play">▶</div>
                     <img src="Songs/${album.folder}/cover.jpg" alt="${albumInfo.title} cover">
                     <h2>${albumInfo.title}</h2>
                     <p>${albumInfo.description || ''}</p>
+                    <span>Play Now</span>
+                    <img class="invert" src="img/play.svg" alt="">
                 </div>`;
             } catch (error) {
                 console.error(`Error loading album ${album.folder}:`, error);
@@ -112,7 +114,7 @@ async function main() {
 
     // Load default songs
     await getSongs(currFolder);
-    
+
     if (songs.length > 0) {
         playMusic(songs[0], true);
     } else {
@@ -141,9 +143,9 @@ async function main() {
 
     // Time update handler
     currentSong.addEventListener("timeupdate", () => {
-        document.querySelector(".songtime").textContent = 
+        document.querySelector(".songtime").textContent =
             `${secondsToMinutesSeconds(currentSong.currentTime)} / ${secondsToMinutesSeconds(currentSong.duration)}`;
-        document.querySelector(".circle").style.left = 
+        document.querySelector(".circle").style.left =
             (currentSong.currentTime / currentSong.duration) * 100 + "%";
     });
 
