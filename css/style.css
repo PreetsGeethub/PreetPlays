@@ -377,35 +377,53 @@ input {
 }
 
 
+/* Song list item styling */
 .song-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 16px;
-    border-bottom: 1px solid #333;
-    cursor: pointer;
-    transition: background-color 0.3s;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
 }
 
 .song-item:hover {
-    background-color: #2a2a2a;
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
-.song-text {
-    color: white;
+.song-info {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.song-title {
+    font-size: 14px;
+    color: #ffffff;
     line-height: 1.4;
-    white-space: pre-line;
 }
 
-.play-now {
+.play-control {
     display: flex;
     align-items: center;
-    gap: 8px;
-    color: #1db954;
-    font-size: 0.9em;
+    gap: 12px;
+}
+
+.play-text {
+    color: #b3b3b3;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
 }
 
 .play-icon {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
+    filter: invert(0.8);
+    transition: transform 0.2s ease;
+}
+
+.song-item:hover .play-icon {
+    filter: invert(1);
+    transform: scale(1.1);
 }

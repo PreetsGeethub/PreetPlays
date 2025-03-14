@@ -31,20 +31,18 @@ async function getSongs(folder) {
             const listItem = document.createElement("li");
             listItem.className = "song-item";
             
-            // Format song name with line breaks
-            const formattedName = song
-                .replace(/\.mp3$/, "") // Remove .mp3 extension
-                .replace(/([A-Z])/g, ' $1') // Add space before capital letters
-                .split(/[-_]/) // Split by hyphens/underscores
-                .join('<br>');
+            // Clean up filename
+            const displayName = song
+                .replace(/\.mp3$/, "")
+                .replace(/([_-])/g, ' ');
 
             listItem.innerHTML = `
-                <div class="song-text">
-                    ${formattedName}
+                <div class="song-info">
+                    <span class="song-title">${displayName}</span>
                 </div>
-                <div class="play-now">
-                    Play Now
-                    <img src="img/play.svg" alt="Play" class="play-icon invert">
+                <div class="play-control">
+                    <span class="play-text">Play Now</span>
+                    <img src="img/play-arrow.svg" alt="Play" class="play-icon">
                 </div>
             `;
 
