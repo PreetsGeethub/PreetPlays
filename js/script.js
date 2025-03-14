@@ -6,9 +6,7 @@ let currFolder = "Songs/ncs"; // Default folder
 
 // Fixed function with proper syntax
 function secondsToMinutesSeconds(seconds) {
-    if (isNaN(seconds) || seconds < 0) {
-        return "00:00";
-    }
+    if (isNaN(seconds) return "00:00"; // ❌ Missing closing parenthesis
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.floor(seconds % 60);
     return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
