@@ -16,7 +16,7 @@ const playMusic = (track, pause = false) => {
     if (!pause) {
         currentSong.play()
             .then(() => {
-                document.getElementById("play").src = "img/pause.svg";
+                document.getElementById("play").src = "./img/pause.svg";
             })
             .catch(error => console.error("Playback failed:", error));
     }
@@ -50,12 +50,12 @@ async function getSongs(folder) {
 
             listItem.innerHTML = `
                 <div class="song-info">
-                    <img src="img/music.svg" class="music-icon" alt="Song">
+                    <img src="./img/music.svg" class="music-icon" alt="Song">
                     ${displayName}
                 </div>
                 <div class="play-control">
                     <span>Play Now</span>
-                    <img class="invert" src="img/playnow.svg" alt="Play" class="play-icon">
+                    <img src="./img/playnow.svg" alt="Play" class="play-icon invert">
                 </div>
             `;
 
@@ -67,12 +67,13 @@ async function getSongs(folder) {
         songs = [];
     }
 }
+
 async function displayAlbums() {
     try {
-        let response = await fetch("albums.json");
+        const response = await fetch("albums.json");
         if (!response.ok) throw new Error("Failed to load albums.json");
-        let albums = await response.json();
-        let cardContainer = document.querySelector(".cardContainer");
+        const albums = await response.json();
+        const cardContainer = document.querySelector(".cardContainer");
 
         if (!cardContainer) {
             console.error("Card container not found");
@@ -81,11 +82,11 @@ async function displayAlbums() {
 
         cardContainer.innerHTML = "";
 
-        for (let album of albums) {
+        for (const album of albums) {
             try {
-                let infoResponse = await fetch(`Songs/${album.folder}/info.json`);
+                const infoResponse = await fetch(`Songs/${album.folder}/info.json`);
                 if (!infoResponse.ok) throw new Error("Album info not found");
-                let albumInfo = await infoResponse.json();
+                const albumInfo = await infoResponse.json();
 
                 cardContainer.innerHTML += `
                     <div data-folder="${album.folder}" class="card">
@@ -111,13 +112,27 @@ async function displayAlbums() {
     } catch (error) {
         console.error("Error loading albums:", error);
     }
-} // ← Closing brace was missing here
+}
+
 async function main() {
+    // Hamburger menu functionality
+    const hamburger = document.querySelector(".hamburger");
+    const closeBtn = document.querySelector(".close");
+    const sidebar = document.querySelector(".Side");
+
+    hamburger.addEventListener("click", () => {
+        sidebar.style.left = "0";
+    });
+
+    closeBtn.addEventListener("click", () => {
+        sidebar.style.left = "-100%";
+    });
+
     // Initialize volume
     currentSong.volume = 0.5;
     document.querySelector(".range input").value = 50;
 
-    // Check for critical elements first
+    // Check for critical elements
     const playButton = document.getElementById("play");
     if (!playButton) {
         console.error("Play button element not found!");
@@ -137,19 +152,19 @@ async function main() {
     }
 
     // Load albums
-    displayAlbums();
+    await displayAlbums();
 
     // Player controls
     playButton.addEventListener("click", () => {
         if (currentSong.paused) {
             currentSong.play()
                 .then(() => {
-                    playButton.src = "img/pause.svg";
+                    playButton.src = "./img/pause.svg";
                 })
                 .catch(error => console.error("Playback failed:", error));
         } else {
             currentSong.pause();
-            playButton.src = "img/playnow.svg";
+            playButton.src = "./img/playnow.svg";
         }
     });
 
@@ -161,14 +176,14 @@ async function main() {
             (currentSong.currentTime / currentSong.duration) * 100 + "%";
     });
 
-    // Seekbar click handler
+    // Seekbar interaction
     document.querySelector(".seekbar").addEventListener("click", e => {
-        let percent = (e.offsetX / e.target.getBoundingClientRect().width) * 100;
-        document.querySelector(".circle").style.left = percent + "%";
+        const percent = (e.offsetX / e.target.getBoundingClientRect().width) * 100;
+        document.querySelector(".circle").style.left = `${percent}%`;
         currentSong.currentTime = (currentSong.duration * percent) / 100;
     });
 
-    // Navigation handlers
+    // Navigation controls
     document.getElementById("prev").addEventListener("click", () => {
         const decodedTrack = decodeURIComponent(currentSong.src.split("/").pop());
         const index = songs.indexOf(decodedTrack);
@@ -189,15 +204,15 @@ async function main() {
     document.querySelector(".volume img").addEventListener("click", e => {
         if (currentSong.volume > 0) {
             currentSong.volume = 0;
-            e.target.src = "img/mute.svg";
+            e.target.src = "./img/mute.svg";
             document.querySelector(".range input").value = 0;
         } else {
             currentSong.volume = 0.5;
-            e.target.src = "img/volume.svg";
+            e.target.src = "./img/volume.svg";
             document.querySelector(".range input").value = 50;
         }
     });
 }
 
-// Start the app
+// Initialize application
 main();
