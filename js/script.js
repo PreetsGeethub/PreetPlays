@@ -4,9 +4,8 @@ let currentSong = new Audio();
 let songs = [];
 let currFolder = "Songs/ncs"; // Default folder
 
-// Fixed function with proper syntax
 function secondsToMinutesSeconds(seconds) {
-    if (isNaN(seconds) || seconds < 0) { // ✅ Added missing parenthesis and condition
+    if (isNaN(seconds) || seconds < 0) {
         return "00:00";
     }
     const minutes = Math.floor(seconds / 60);
@@ -21,7 +20,13 @@ async function getSongs(folder) {
         let data = await response.json();
         
         songs = data.tracks || [];
-        let songList = document.getElementById("song-list");
+        // Changed to match your HTML structure
+        let songList = document.querySelector(".songList ul");
+        
+        if (!songList) {
+            throw new Error("Song list element not found");
+        }
+
         songList.innerHTML = "";
         
         songs.forEach(song => {
@@ -32,15 +37,17 @@ async function getSongs(folder) {
         });
     } catch (error) {
         console.error("Error loading songs:", error);
-        songs = [];
     }
 }
 
 const playMusic = (track, pause = false) => {
-    currentSong.src = `${currFolder}/${encodeURI(track)}`;
+    currentSong.src = `${currFolder}/${encodeURIComponent(track)}`;
     if (!pause) {
-        currentSong.play().catch(error => console.error("Playback failed:", error));
-        document.getElementById("play").src = "img/pause.svg";
+        currentSong.play()
+            .then(() => {
+                document.getElementById("play").src = "img/pause.svg";
+            })
+            .catch(error => console.error("Playback failed:", error));
     }
     document.querySelector(".songinfo").textContent = track;
     document.querySelector(".songtime").textContent = "00:00 / 00:00";
@@ -56,21 +63,15 @@ async function displayAlbums() {
         for (let album of albums) {
             try {
                 let infoResponse = await fetch(`Songs/${album.folder}/info.json`);
-                if (!infoResponse.ok) throw new Error("Album info not found");
                 let albumInfo = await infoResponse.json();
-                
                 cardContainer.innerHTML += `<div data-folder="${album.folder}" class="card">
                     <div class="play">▶</div>
-                    <img src="Songs/${album.folder}/cover.jpg" alt="${albumInfo.title} cover">
+                    <img src="Songs/${album.folder}/cover.jpg" alt="cover">
                     <h2>${albumInfo.title}</h2>
                     <p>${albumInfo.description || ''}</p>
                 </div>`;
             } catch (error) {
                 console.error(`Error loading album ${album.folder}:`, error);
-                cardContainer.innerHTML += `<div class="card error">
-                    <h2>⚠️ Album Failed</h2>
-                    <p>${album.folder}</p>
-                </div>`;
             }
         }
 
@@ -105,8 +106,11 @@ async function main() {
     // Player controls
     document.getElementById("play").addEventListener("click", () => {
         if (currentSong.paused) {
-            currentSong.play().catch(error => console.error("Playback failed:", error));
-            document.getElementById("play").src = "img/pause.svg";
+            currentSong.play()
+                .then(() => {
+                    document.getElementById("play").src = "img/pause.svg";
+                })
+                .catch(error => console.error("Playback failed:", error));
         } else {
             currentSong.pause();
             document.getElementById("play").src = "img/playnow.svg";
@@ -157,5 +161,4 @@ async function main() {
     });
 }
 
-// Start the app
 main();
