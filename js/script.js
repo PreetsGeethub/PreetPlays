@@ -87,7 +87,7 @@ async function displayAlbums() {
                     <h2>${albumInfo.title}</h2>
                     <p>${albumInfo.description || ''}</p>
                     <span>Play Now</span>
-                    <img class="invert" src="img/play.svg" alt="">
+                    <img class="invert" src="img/playnow.svg" alt="">
                 </div>`;
             } catch (error) {
                 console.error(`Error loading album ${album.folder}:`, error);
