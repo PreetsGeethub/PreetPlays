@@ -29,15 +29,25 @@ async function getSongs(folder) {
         
         songs.forEach(song => {
             const listItem = document.createElement("li");
+            listItem.className = "song-item";
+            
+            // Format song name with line breaks
+            const formattedName = song
+                .replace(/\.mp3$/, "") // Remove .mp3 extension
+                .replace(/([A-Z])/g, ' $1') // Add space before capital letters
+                .split(/[-_]/) // Split by hyphens/underscores
+                .join('<br>');
+
             listItem.innerHTML = `
-                <div class="song-item">
-                    <img class="play-icon invert" src="img/music.svg" alt="Play">
-                    <span class="song-name">${song}</span>
-                    <span class="song-name">Play Now</span>
-                    <img class="play-icon invert" src="img/playnow.svg" alt="Play">
-                    
+                <div class="song-text">
+                    ${formattedName}
+                </div>
+                <div class="play-now">
+                    Play Now
+                    <img src="img/play.svg" alt="Play" class="play-icon invert">
                 </div>
             `;
+
             listItem.addEventListener("click", () => playMusic(song));
             songList.appendChild(listItem);
         });
@@ -46,7 +56,6 @@ async function getSongs(folder) {
         songs = [];
     }
 }
-
 // ... rest of your existing JS code (playMusic, displayAlbums, main, etc) ...
 const playMusic = (track, pause = false) => {
     currentSong.src = `${currFolder}/${encodeURIComponent(track)}`;
