@@ -49,6 +49,7 @@ async function getSongs(folder) {
                 .replace(/([_-])/g, ' ');
 
             listItem.innerHTML = `
+                <img src="img/music.svg" alt="Play">
                 <div class="song-info">
                     ${displayName}
                 </div>
