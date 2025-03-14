@@ -465,4 +465,52 @@ input {
 }
 .play-control img{
     width: 17px;
+
+
+}
+
+
+
+/* Add these styles */
+.hamburger {
+    display: none;
+    cursor: pointer;
+    z-index: 1001;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+}
+
+.close {
+    display: none;
+    cursor: pointer;
+    z-index: 1001;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+}
+
+.Side {
+    position: fixed;
+    left: -100%;
+    width: 300px;
+    height: 100vh;
+    transition: all 0.3s ease-in-out;
+    z-index: 1000;
+    background: #000;
+    top: 0;
+}
+
+@media (max-width: 1400px) {
+    .hamburger {
+        display: block !important;
+    }
+    
+    .close {
+        display: block !important;
+    }
+    
+    .Side.active {
+        left: 0 !important;
+    }
 }
