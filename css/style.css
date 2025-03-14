@@ -325,7 +325,7 @@ input {
     display: none;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1400px) {
     .Side {
         color: red;
         position: absolute;
@@ -462,4 +462,7 @@ input {
 
 .play-icon{
     color: white;
+}
+.play-control img{
+    width: 17px;
 }
