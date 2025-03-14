@@ -87,18 +87,33 @@ async function displayAlbums() {
                 if (!infoResponse.ok) throw new Error("Album info not found");
                 let albumInfo = await infoResponse.json();
 
-                // Cleaned up album card without play elements
-                cardContainer.innerHTML += `<div data-folder="${album.folder}" class="card">
-                    <img src="Songs/${album.folder}/cover.jpg" alt="${albumInfo.title} cover">
-                    <h2>${albumInfo.title}</h2>
-                    <p>${albumInfo.description || ''}</p>
-                </div>`;
+                // Clean album card with only essential elements
+                cardContainer.innerHTML += `
+                    <div data-folder="${album.folder}" class="card">
+                        <img src="Songs/${album.folder}/cover.jpg" alt="${albumInfo.title} cover">
+                        <div class="album-info">
+                            <h2>${albumInfo.title}</h2>
+                            <p>${albumInfo.description || ''}</p>
+                        </div>
+                    </div>
+                `;
             } catch (error) {
                 console.error(`Error loading album ${album.folder}:`, error);
             }
         }
 
-       
+        // Add click handlers to all album cards
+        document.querySelectorAll(".card").forEach(card => {
+            card.addEventListener("click", async () => {
+                currFolder = `Songs/${card.dataset.folder}`;
+                await getSongs(currFolder);
+                if (songs.length > 0) playMusic(songs[0]);
+            });
+        });
+    } catch (error) {
+        console.error("Error loading albums:", error);
+    }
+} // Proper closing brace added here
 async function main() {
     // Initialize volume
     currentSong.volume = 0.5;
