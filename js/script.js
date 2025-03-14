@@ -11,38 +11,33 @@ function secondsToMinutesSeconds(seconds) {
     return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
 }
 
+// In displayAlbums function (remove play elements from albums)
+cardContainer.innerHTML += `<div data-folder="${album.folder}" class="card">
+    <img src="Songs/${album.folder}/cover.jpg" alt="${albumInfo.title} cover">
+    <h2>${albumInfo.title}</h2>
+    <p>${albumInfo.description || ''}</p>
+</div>`;
+
+// Modified getSongs function with aligned play controls
 async function getSongs(folder) {
     try {
-        const response = await fetch(`${folder}/info.json`);
-        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-        const data = await response.json();
-        
-        songs = data.tracks || [];
-        const songList = document.querySelector(".songList ul");
-        
-        if (!songList) {
-            console.error("Song list element not found");
-            return;
-        }
+        // ... existing fetch code ...
 
-        songList.innerHTML = "";
-        
         songs.forEach(song => {
             const listItem = document.createElement("li");
             listItem.className = "song-item";
             
-            // Clean up filename
             const displayName = song
                 .replace(/\.mp3$/, "")
                 .replace(/([_-])/g, ' ');
 
             listItem.innerHTML = `
                 <div class="song-info">
-                    <span class="song-title">${displayName}</span>
+                    ${displayName}
                 </div>
                 <div class="play-control">
-                    <span class="play-text">Play Now</span>
-                    <img src="img/play-arrow.svg" alt="Play" class="play-icon">
+                    <span>Play Now</span>
+                    <img src="img/play.svg" alt="Play" class="play-icon">
                 </div>
             `;
 
@@ -50,8 +45,7 @@ async function getSongs(folder) {
             songList.appendChild(listItem);
         });
     } catch (error) {
-        console.error("Error loading songs:", error);
-        songs = [];
+        // ... error handling ...
     }
 }
 // ... rest of your existing JS code (playMusic, displayAlbums, main, etc) ...
