@@ -515,3 +515,38 @@ input {
     }
 }
 
+/* Add these styles */
+.card {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.play-indicator {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    background: #1db954;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card:hover .play-indicator {
+    opacity: 1;
+}
+
+.play-indicator svg {
+    width: 24px;
+    height: 24px;
+    filter: invert(1);
+}

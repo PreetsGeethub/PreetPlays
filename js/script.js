@@ -90,7 +90,14 @@ async function displayAlbums() {
 
                 cardContainer.innerHTML += `
                     <div data-folder="${album.folder}" class="card">
-                        <img src="Songs/${album.folder}/cover.jpg" alt="${albumInfo.title} cover">
+                        <div class="card-image">
+                            <img src="Songs/${album.folder}/cover.jpg" alt="${albumInfo.title} cover">
+                            <div class="play-indicator">
+                                <svg viewBox="0 0 24 24" width="24" height="24">
+                                    <path fill="currentColor" d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
                         <div class="album-info">
                             <h2>${albumInfo.title}</h2>
                             <p>${albumInfo.description || ''}</p>
@@ -116,17 +123,23 @@ async function displayAlbums() {
 
 async function main() {
     // Hamburger menu functionality
-    const hamburger = document.querySelector(".hamburger");
-    const closeBtn = document.querySelector(".close");
-    const sidebar = document.querySelector(".Side");
+    const hamburger = document.querySelector('.hamburger');
+    const closeBtn = document.querySelector('.close');
+    const sidebar = document.querySelector('.Side');
 
-    hamburger.addEventListener("click", () => {
-        sidebar.style.left = "0";
-    });
+    if (hamburger && closeBtn && sidebar) {
+        hamburger.addEventListener('click', () => {
+            sidebar.classList.add('active');
+            console.log('Sidebar opened');
+        });
 
-    closeBtn.addEventListener("click", () => {
-        sidebar.style.left = "-100%";
-    });
+        closeBtn.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            console.log('Sidebar closed');
+        });
+    } else {
+        console.error('Navigation elements missing');
+    }
 
     // Initialize volume
     currentSong.volume = 0.5;
