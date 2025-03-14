@@ -514,3 +514,37 @@ input {
         left: 0 !important;
     }
 }
+
+.card {
+    position: relative;
+    overflow: hidden;
+}
+
+.card-content {
+    position: relative;
+}
+
+.play-indicator {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    background: #1db954;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card:hover .play-indicator {
+    opacity: 1;
+}
+
+.play-indicator svg {
+    width: 24px;
+    height: 24px;
+    filter: invert(1);
+}

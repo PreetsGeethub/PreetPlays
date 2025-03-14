@@ -89,14 +89,22 @@ async function displayAlbums() {
                 const albumInfo = await infoResponse.json();
 
                 cardContainer.innerHTML += `
-                    <div data-folder="${album.folder}" class="card">
-                        <img src="Songs/${album.folder}/cover.jpg" alt="${albumInfo.title} cover">
-                        <div class="album-info">
-                            <h2>${albumInfo.title}</h2>
-                            <p>${albumInfo.description || ''}</p>
-                        </div>
+            <div data-folder="${album.folder}" class="card">
+                <div class="card-content">
+                    <img src="Songs/${album.folder}/cover.jpg" alt="${albumInfo.title} cover">
+                    <div class="play-indicator">
+                        <svg viewBox="0 0 24 24" width="24" height="24">
+                            <path fill="currentColor" d="M8 5v14l11-7z"/>
+                        </svg>
                     </div>
-                `;
+                </div>
+                <div class="album-info">
+                    <h2>${albumInfo.title}</h2>
+                    <p>${albumInfo.description || ''}</p>
+                </div>
+            </div>
+        `;
+
             } catch (error) {
                 console.error(`Error loading album ${album.folder}:`, error);
             }
