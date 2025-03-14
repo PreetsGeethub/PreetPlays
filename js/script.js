@@ -5,9 +5,7 @@ let songs = [];
 let currFolder = "Songs/ncs"; // Default folder
 
 function secondsToMinutesSeconds(seconds) {
-    if (isNaN(seconds) || seconds < 0) {
-        return "00:00";
-    }
+    if (isNaN(seconds) || seconds < 0) return "00:00";
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.floor(seconds % 60);
     return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
@@ -15,24 +13,28 @@ function secondsToMinutesSeconds(seconds) {
 
 async function getSongs(folder) {
     try {
-        let response = await fetch(`${folder}/info.json`);
+        const response = await fetch(`${folder}/info.json`);
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-        let data = await response.json();
-
+        const data = await response.json();
+        
         songs = data.tracks || [];
-        // Changed selector to match your HTML structure
-        let songList = document.querySelector(".songList ul");
-
+        const songList = document.querySelector(".songList ul");
+        
         if (!songList) {
-            console.error("Song list element not found. Check HTML structure.");
+            console.error("Song list element not found");
             return;
         }
 
         songList.innerHTML = "";
-
+        
         songs.forEach(song => {
-            let listItem = document.createElement("li");
-            listItem.textContent = song;
+            const listItem = document.createElement("li");
+            listItem.innerHTML = `
+                <div class="song-item">
+                    <img class="play-icon invert" src="img/playnow.svg" alt="Play">
+                    <span class="song-name">${song}</span>
+                </div>
+            `;
             listItem.addEventListener("click", () => playMusic(song));
             songList.appendChild(listItem);
         });
@@ -42,6 +44,7 @@ async function getSongs(folder) {
     }
 }
 
+// ... rest of your existing JS code (playMusic, displayAlbums, main, etc) ...
 const playMusic = (track, pause = false) => {
     currentSong.src = `${currFolder}/${encodeURIComponent(track)}`;
     if (!pause) {
