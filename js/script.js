@@ -31,8 +31,11 @@ async function getSongs(folder) {
             const listItem = document.createElement("li");
             listItem.innerHTML = `
                 <div class="song-item">
-                    <img class="play-icon invert" src="img/playnow.svg" alt="Play">
+                    <img class="play-icon invert" src="img/music.svg" alt="Play">
                     <span class="song-name">${song}</span>
+                    <span class="song-name">Play Now</span>
+                    <img class="play-icon invert" src="img/playnow.svg" alt="Play">
+                    
                 </div>
             `;
             listItem.addEventListener("click", () => playMusic(song));
