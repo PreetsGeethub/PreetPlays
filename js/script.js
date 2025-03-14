@@ -120,20 +120,11 @@ async function main() {
     const closeBtn = document.querySelector(".close");
     const sidebar = document.querySelector(".Side");
 
-    // Verify elements exist
-    if (!hamburger || !closeBtn || !sidebar) {
-        console.error("Could not find navigation elements");
-        return;
-    }
-
-    // Add click listeners
     hamburger.addEventListener("click", () => {
-        console.log("Opening sidebar");
         sidebar.style.left = "0";
     });
 
     closeBtn.addEventListener("click", () => {
-        console.log("Closing sidebar");
         sidebar.style.left = "-100%";
     });
 
