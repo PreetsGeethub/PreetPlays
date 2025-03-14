@@ -1,12 +1,14 @@
-
 console.log("Let's write JavaScript");
 
 let currentSong = new Audio();
 let songs = [];
 let currFolder = "Songs/ncs"; // Default folder
 
+// Fixed function with proper syntax
 function secondsToMinutesSeconds(seconds) {
-    if (isNaN(seconds) return "00:00";
+    if (isNaN(seconds) || seconds < 0) {
+        return "00:00";
+    }
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.floor(seconds % 60);
     return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
@@ -30,7 +32,7 @@ async function getSongs(folder) {
         });
     } catch (error) {
         console.error("Error loading songs:", error);
-        songs = []; // Reset songs array on error
+        songs = [];
     }
 }
 
@@ -40,7 +42,7 @@ const playMusic = (track, pause = false) => {
         currentSong.play().catch(error => console.error("Playback failed:", error));
         document.getElementById("play").src = "img/pause.svg";
     }
-    document.querySelector(".songinfo").textContent = track; // Use textContent instead of innerHTML
+    document.querySelector(".songinfo").textContent = track;
     document.querySelector(".songtime").textContent = "00:00 / 00:00";
 };
 
@@ -85,18 +87,22 @@ async function displayAlbums() {
 }
 
 async function main() {
-    currentSong.volume = 0.5; // Initialize volume
+    // Initialize volume
+    currentSong.volume = 0.5;
     document.querySelector(".range input").value = 50;
-    
+
+    // Load default songs
     await getSongs(currFolder);
     if (songs.length > 0) {
         playMusic(songs[0], true);
     } else {
-        console.warn("No songs found in default folder.");
+        console.warn("No songs found in default folder");
     }
+
+    // Load albums
     displayAlbums();
 
-    // Event Listeners (unchanged but critical)
+    // Player controls
     document.getElementById("play").addEventListener("click", () => {
         if (currentSong.paused) {
             currentSong.play().catch(error => console.error("Playback failed:", error));
@@ -107,6 +113,7 @@ async function main() {
         }
     });
 
+    // Time update handler
     currentSong.addEventListener("timeupdate", () => {
         document.querySelector(".songtime").textContent = 
             `${secondsToMinutesSeconds(currentSong.currentTime)} / ${secondsToMinutesSeconds(currentSong.duration)}`;
@@ -114,7 +121,41 @@ async function main() {
             (currentSong.currentTime / currentSong.duration) * 100 + "%";
     });
 
-    // ... rest of your event listeners
+    // Seekbar click handler
+    document.querySelector(".seekbar").addEventListener("click", e => {
+        let percent = (e.offsetX / e.target.getBoundingClientRect().width) * 100;
+        document.querySelector(".circle").style.left = percent + "%";
+        currentSong.currentTime = (currentSong.duration * percent) / 100;
+    });
+
+    // Navigation handlers
+    document.getElementById("prev").addEventListener("click", () => {
+        const index = songs.indexOf(currentSong.src.split("/").pop());
+        if (index > 0) playMusic(songs[index - 1]);
+    });
+
+    document.getElementById("next").addEventListener("click", () => {
+        const index = songs.indexOf(currentSong.src.split("/").pop());
+        if (index < songs.length - 1) playMusic(songs[index + 1]);
+    });
+
+    // Volume controls
+    document.querySelector(".range input").addEventListener("input", e => {
+        currentSong.volume = e.target.value / 100;
+    });
+
+    document.querySelector(".volume img").addEventListener("click", e => {
+        if (currentSong.volume > 0) {
+            currentSong.volume = 0;
+            e.target.src = "img/mute.svg";
+            document.querySelector(".range input").value = 0;
+        } else {
+            currentSong.volume = 0.5;
+            e.target.src = "img/volume.svg";
+            document.querySelector(".range input").value = 50;
+        }
+    });
 }
 
+// Start the app
 main();
