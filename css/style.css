@@ -377,43 +377,20 @@ input {
 }
 
 /* Song list items */
-.song-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 20px;
-    margin: 4px 0;
-    border-radius: 4px;
-    transition: background-color 0.2s;
-}
-
-.song-item:hover {
-    background-color: rgba(255, 255, 255, 0.03);
-}
-
 .song-info {
-    flex: 1;
-    color: #fff;
-    font-size: 14px;
-    line-height: 1.4;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.music-icon {
+    width: 18px;
+    height: 18px;
+    filter: invert(0.7);
 }
 
 .play-control {
     display: flex;
     align-items: center;
-    gap: 12px;
-    color: #b3b3b3;
-    font-size: 12px;
-}
-
-.play-control img {
-    width: 18px;
-    height: 18px;
-    filter: invert(0.7);
-    transition: transform 0.2s;
-}
-
-.song-item:hover .play-control img {
-    filter: invert(1);
-    transform: scale(1.1);
+    gap: 8px;
 }

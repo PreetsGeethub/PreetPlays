@@ -49,8 +49,8 @@ async function getSongs(folder) {
                 .replace(/([_-])/g, ' ');
 
             listItem.innerHTML = `
-                <img src="img/music.svg" alt="Play">
                 <div class="song-info">
+                    <img src="img/music.svg" class="music-icon" alt="Song">
                     ${displayName}
                 </div>
                 <div class="play-control">
@@ -67,7 +67,6 @@ async function getSongs(folder) {
         songs = [];
     }
 }
-
 async function displayAlbums() {
     try {
         let response = await fetch("albums.json");
