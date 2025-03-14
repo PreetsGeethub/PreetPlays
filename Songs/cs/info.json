@@ -1,4 +1,9 @@
 {
     "title": "Diljit Dosanjh",
-    "description": "Diljit Dosanjh hits"
+    "description": "Diljit Dosanjh hits",
+    "trcks": ["jaane_kyun.mp3",
+            "bam_bam_bhole.mp3"
+
+           
+    ]
 }
