@@ -1,18 +1,8 @@
 {
     "title": "Diljit Dosanjh",
     "description": "Diljit Dosanjh hits",
-<<<<<<< HEAD
-    "trcks": ["jaane_kyun.mp3",
-            "bam_bam_bhole.mp3"
-
-           
+    "tracks": [
+        "jaane_kyun.mp3",
+        "bam_bam_bhole.mp3"
     ]
 }
-=======
-    "name": ["Songs/cs/jaane kyun.mp3",
-            "Songs/cs/bam bam bhole.mp3"
-
-           
-    ]
-}
->>>>>>> 256c5a953706df15c9b8ab7bdf90676be780f39c
