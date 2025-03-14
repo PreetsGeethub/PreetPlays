@@ -394,3 +394,11 @@ input {
     align-items: center;
     gap: 8px;
 }
+
+.play-control span{
+    width: 104px;
+}
+
+.play-icon{
+    color: white;
+}
