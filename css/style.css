@@ -490,42 +490,50 @@ input {
     right: 20px;
 }
 
+/* Desktop Styles */
 .Side {
     position: fixed;
-    left: -100%;
-    width: 300px;
+    left: 0;
+    width: 25vw;
     height: 100vh;
-    transition: all 0.3s ease-in-out;
-    z-index: 1000;
-    background: #000;
-    top: 0;
+    transition: transform 0.3s ease-in-out;
+    z-index: 100;
+    background: black;
 }
 
+/* Mobile Styles */
 @media (max-width: 1400px) {
-    .hamburger {
-        display: block !important;
-    }
-    
-    .close {
-        display: block !important;
+    .Side {
+        width: 300px;
+        transform: translateX(-100%);
     }
     
     .Side.active {
-        left: 0 !important;
+        transform: translateX(0);
+    }
+
+    .hamburger {
+        display: block;
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 101;
+    }
+
+    .close {
+        display: block;
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 101;
+    }
+
+    body.sidebar-open {
+        overflow: hidden;
     }
 }
 
-/* Add these styles */
-.card {
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.3s ease;
-}
-
-.card:hover {
-    transform: scale(1.05);
-}
-
+/* Play Indicator Fix */
 .play-indicator {
     position: absolute;
     bottom: 15px;
@@ -543,10 +551,4 @@ input {
 
 .card:hover .play-indicator {
     opacity: 1;
-}
-
-.play-indicator svg {
-    width: 24px;
-    height: 24px;
-    filter: invert(1);
 }
