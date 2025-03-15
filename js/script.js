@@ -127,14 +127,16 @@ async function main() {
     const closeBtn = document.querySelector('.close');
     const sidebar = document.querySelector('.Side');
 
-    const toggleSidebar = () => {
-        sidebar.classList.toggle('active');
-        document.body.classList.toggle('sidebar-open');
-    };
-
     if (hamburger && closeBtn && sidebar) {
-        hamburger.addEventListener('click', toggleSidebar);
-        closeBtn.addEventListener('click', toggleSidebar);
+        hamburger.addEventListener('click', () => {
+            sidebar.classList.add('active');
+            console.log('Sidebar opened');
+        });
+
+        closeBtn.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            console.log('Sidebar closed');
+        });
     } else {
         console.error('Navigation elements missing');
     }
